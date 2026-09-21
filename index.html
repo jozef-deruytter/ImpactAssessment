@@ -15,4 +15,18 @@
 </body>
 <h1 id="product-name">Super Widget</h1>
 <span id="product-price">19.99</span>
-<script></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  window.addEventListener("DOMContentLoaded", () => {
+    const productName = document.getElementById("product-name").textContent;
+    const productPrice = Number(
+      document.getElementById("product-price").textContent
+    );
+
+    window.dataLayer.push({
+      productName: productName,
+      productPrice: productPrice
+    });
+  });
+</script>
