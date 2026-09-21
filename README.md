@@ -1,2 +1,2 @@
 # ImpactAssessment
-Online Assessment for imact.com
+Online Assessment for impact.com
