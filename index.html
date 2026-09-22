@@ -13,20 +13,56 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 </body>
-<h1 id="product-name">Super Widget</h1>
-<span id="product-price">19.99</span>
+<h1 id="productName">Super Widget</h1>
+<span id="productPrice">19.99</span>
+<button id="productSend">Send</button>
 <script>
   window.dataLayer = window.dataLayer || [];
 
   window.addEventListener("DOMContentLoaded", () => {
-    const productName = document.getElementById("product-name").textContent;
+    const productName = document.getElementById("productName").textContent;
     const productPrice = Number(
-      document.getElementById("product-price").textContent
+      document.getElementById("productPrice").textContent
     );
 
     window.dataLayer.push({
       productName: productName,
       productPrice: productPrice
     });
+  });
+</script>
+<script>
+  document.getElementById("productSend").addEventListener("click", async () => {
+    const productData = window.dataLayer.find(
+      item => item.productName && item.productPrice !== undefined
+    );
+  
+    if (!productData) {
+      console.error("Product name and price do not exist in the data layer.");
+      return;
+    }
+  
+    try {
+      const response = await fetch("https://httpbin.org/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          productName: productData.productName,
+          productPrice: productData.productPrice
+        })
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Request failed with status ${response.status}`);
+      }
+  
+      const responseData = await response.json();
+  
+      console.log(responseData.json);
+    } catch (error) {
+      console.error("API request failed:", error);
+    }
   });
 </script>
